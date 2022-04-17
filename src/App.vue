@@ -4,8 +4,8 @@
       <el-date-picker
         v-model="week"
         type="week"
-        format="YYYY/MM/DD 第ww周"
-        value-format="YYYY/MM/DD"
+        format="YYYY-MM-DD 第ww周"
+        value-format="YYYY-MM-DD"
         placeholder="Pick a week"
         :clearable="false"
         @change="getReportByWeek"
@@ -63,7 +63,7 @@ import { getWeeklyDate, getReportByWeek } from '@/api/api';
 export default {
   components: {
     CardInfo,
-    WeeklyReport
+    WeeklyReport,
   },
   data() {
     return {
@@ -71,11 +71,11 @@ export default {
       laodingFlag: true,
       week: '',
       weekList: [],
-      list: []
-    }
+      list: [],
+    };
   },
   created() {
-    this.getWeeklyDate()
+    this.getWeeklyDate();
   },
   methods: {
     /**
@@ -142,8 +142,8 @@ export default {
      */
     editReport(item) {
       this.$refs.weeklyReport.editReport(JSON.parse(JSON.stringify(item)));
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="stylus" scoped>

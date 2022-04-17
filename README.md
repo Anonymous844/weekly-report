@@ -18,7 +18,7 @@
 
 ## 文档地址
 
-YAPI文档地址：<http://software.myhexin.com/yapi/project/9244/interface/api/cat_49687>
+YAPI文档地址：<http://yapi.smart-xwork.cn/project/147588/interface/api>
 
 ## 整体设计
 

@@ -29,17 +29,11 @@
       <div class="col">发现问题并定位原因问题数：{{ solveNumber }}</div>
     </div>
     <h3>本周排期工作</h3>
-    <p v-for="(item, index) in worksInPlan" :key="index">
-      {{ `${index + 1}. ${item}` }}
-    </p>
+    <p v-html="worksInPlan.replace(/\n/g, '<br />')"></p>
     <h3>本周排期外工作</h3>
-    <p v-for="(item, index) in worksNotInPlan" :key="index">
-      {{ `${index + 1}. ${item}` }}
-    </p>
+    <p v-html="worksNotInPlan.replace(/\n/g, '<br />')"></p>
     <h3>下周计划</h3>
-    <p v-for="(item, index) in worksInNextWeek" :key="index">
-      {{ `${index + 1}. ${item}` }}
-    </p>
+    <p v-html="worksInNextWeek.replace(/\n/g, '<br />')"></p>
     <h3 v-if="tips">备注</h3>
     <p v-html="tips.replace(/\n/g, '<br />')"></p>
   </el-card>
@@ -50,56 +44,56 @@ export default {
   props: {
     reportId: {
       type: Number,
-      default: undefined
+      default: undefined,
     },
     name: {
       type: String,
-      default: ''
+      default: '',
     },
     planNumber: {
       type: String,
-      default: '0'
+      default: '0',
     },
     realNumber: {
       type: String,
-      default: '0'
+      default: '0',
     },
     deployNumber: {
       type: String,
-      default: '0'
+      default: '0',
     },
     bugNumber: {
       type: String,
-      default: '0'
+      default: '0',
     },
     onlineNumber: {
       type: String,
-      default: '0'
+      default: '0',
     },
     solveNumber: {
       type: String,
-      default: '0'
+      default: '0',
     },
     worksInPlan: {
-      type: Array,
-      default: []
+      type: String,
+      default: '',
     },
     worksNotInPlan: {
-      type: Array,
-      default: []
+      type: String,
+      default: '',
     },
     worksInNextWeek: {
-      type: Array,
-      default: []
+      type: String,
+      default: '',
     },
     tips: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   emits: [
     'edit',
-    'refresh'
+    'refresh',
   ],
   methods: {
     async confirmEvent() {
@@ -120,8 +114,8 @@ export default {
       } finally {
         loading.close();
       }
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="stylus" scoped>

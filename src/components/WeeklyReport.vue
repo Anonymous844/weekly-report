@@ -43,61 +43,22 @@
     </div>
     <h3>本周排期工作</h3>
     <el-input
+      type="textarea"
       class="work-input"
-      v-for="(item, index) in worksInPlan"
-      :key="index"
-      :modelValue="item"
-      @input="inputWorks($event, 'worksInPlan', index)"
-    >
-      <template #prepend>
-        {{ index + 1 }}
-      </template>
-      <template #append>
-        <el-button type="danger" @click="deleteWorks('worksInPlan', index)">删除</el-button>
-      </template>
-    </el-input>
-    <el-button
-      type="primary"
-      @click="createWorks('worksInPlan')
-    ">新增</el-button>
+      v-model="worksInPlan"
+    ></el-input>
     <h3>本周排期外工作</h3>
     <el-input
+      type="textarea"
       class="work-input"
-      v-for="(item, index) in worksNotInPlan"
-      :key="index"
-      :modelValue="item"
-      @input="inputWorks($event, 'worksNotInPlan', index)"
-    >
-      <template #prepend>
-        {{ index + 1 }}
-      </template>
-      <template #append>
-        <el-button type="danger">删除</el-button>
-      </template>
-    </el-input>
-    <el-button
-      type="primary"
-      @click="createWorks('worksNotInPlan')"
-    >新增</el-button>
+      v-model="worksNotInPlan"
+    ></el-input>
     <h3>下周计划</h3>
     <el-input
+      type="textarea"
       class="work-input"
-      v-for="(item, index) in worksInNextWeek"
-      :key="index"
-      :modelValue="item"
-      @input="inputWorks($event, 'worksInNextWeek', index)"
-    >
-      <template #prepend>
-        {{ index + 1 }}
-      </template>
-      <template #append>
-        <el-button type="danger">删除</el-button>
-      </template>
-    </el-input>
-    <el-button
-      type="primary"
-      @click="createWorks('worksInNextWeek')"
-    >新增</el-button>
+      v-model="worksInNextWeek"
+    ></el-input>
     <h3>备注</h3>
     <el-input type="textarea" v-model="tips"></el-input>
     <template #footer>
@@ -112,11 +73,11 @@ export default {
   props: {
     week: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   emits: [
-    'refresh'
+    'refresh',
   ],
   data() {
     return {
@@ -133,11 +94,11 @@ export default {
       bugNumber: '',
       onlineNumber: '',
       solveNumber: '',
-      worksInPlan: [''],
-      worksNotInPlan: [''],
-      worksInNextWeek: [''],
-      tips: ''
-    }
+      worksInPlan: '',
+      worksNotInPlan: '',
+      worksInNextWeek: '',
+      tips: '',
+    };
   },
   methods: {
     /**
@@ -147,15 +108,15 @@ export default {
       this.isNew = true;
       this.id = undefined;
       this.name = '';
-      this.planNumber = '';
-      this.realNumber = '';
-      this.deployNumber = '';
-      this.bugNumber = '';
-      this.onlineNumber = '';
-      this.solveNumber = '';
-      this.worksInPlan = [''];
-      this.worksNotInPlan = [''];
-      this.worksInNextWeek = [''];
+      this.planNumber = '0';
+      this.realNumber = '0';
+      this.deployNumber = '0';
+      this.bugNumber = '0';
+      this.onlineNumber = '0';
+      this.solveNumber = '0';
+      this.worksInPlan = '';
+      this.worksNotInPlan = '';
+      this.worksInNextWeek = '';
       this.tips = '';
       this.visible = true;
     },
@@ -179,30 +140,6 @@ export default {
       this.visible = true;
     },
     /**
-     * @description 增加工作计划
-     * @param {string} key worksInPlan|worksNotInPlan|worksInNextWeek
-     */
-    createWorks(key) {
-      this[key].push('');
-    },
-    /**
-     * @description 处理工作计划的输入
-     * @param {string} val 每次输入的值
-     * @param {string} key worksInPlan|worksNotInPlan|worksInNextWeek
-     * @param {number} index 工作计划的下标
-     */
-    inputWorks(val, key, index) {
-      this[key][index] = val;
-    },
-    /**
-     * @description 删除工作计划
-     * @param {string} key worksInPlan|worksNotInPlan|worksInNextWeek
-     * @param {number} index 工作计划的下标
-     */
-    deleteWorks(key, index) {
-      this[key].splice(index, 1)
-    },
-    /**
      * @description 提交表单数据
      */
     async handleSubmit() {
@@ -215,15 +152,15 @@ export default {
         bugNumber: this.bugNumber,
         onlineNumber: this.onlineNumber,
         solveNumber: this.solveNumber,
-        worksInPlan: this.filterEmpty(this.worksInPlan),
-        worksNotInPlan: this.filterEmpty(this.worksNotInPlan),
-        worksInNextWeek: this.filterEmpty(this.worksInNextWeek),
-        tips: this.tips
+        worksInPlan: this.worksInPlan,
+        worksNotInPlan: this.worksNotInPlan,
+        worksInNextWeek: this.worksInNextWeek,
+        tips: this.tips,
       };
       this.loading = true;
       try {
         if (this.isNew) {
-          data = { ...data, week: this.week }
+          data = { ...data, week: this.week };
           await addReport(data);
         } else {
           await editReport(data);
@@ -240,14 +177,7 @@ export default {
         this.loading = false;
       }
     },
-    /**
-     * @description trim后过滤数组中的空值
-     * @return {array} list 过滤后的数组
-     */
-    filterEmpty(list = []) {
-      return list.filter(v => '' !== v.trim());
-    }
-  }
+  },
 }
 </script>
 <style lang="stylus">
